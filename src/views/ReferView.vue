@@ -1,20 +1,21 @@
 <template>
   <HeaderCont />
   <main id="main">
-    <section class="refer__cont">
-      <TitleCont name1="reference" name2="book" />
-      <div class="container">
-        <div class="refer__cont">
-          <div class="refer__inner">
-            <ul>
-              <li v-for="refer in refers" :key="refer.id">
-                <span className="num">{{ refer.id }}</span>
-                <span className="title">{{ refer.title }}</span>
-                <span className="desc">{{ refer.desc }}</span>
-                <span className="use">{{ refer.use }}</span>
-              </li>
-            </ul>
-          </div>
+    <section class="reference__cont">
+      <TitleCont name1="Reference" name2="Book" />
+      <div class="reference__inner">
+        <div class="table">
+          <h3>HTML</h3>
+          <ul>
+            <li v-for="refer in refers" :key="refer.id">
+              <a :href="refer.link" target="_blank">
+                <span class="num">{{ refer.id }}</span>
+                <span class="title">{{ refer.title }}</span>
+                <span class="desc">{{ refer.desc2 }}</span>
+                <span class="use">{{ refer.use }}</span>
+              </a>
+            </li>
+          </ul>
         </div>
       </div>
       <ContactCont />
@@ -40,128 +41,91 @@ export default {
   setup() {
     const refers = ref([]);
 
-    const Referecnes = () => {
-      var requestOptions = {
-        method: "GET",
-        redirect: "follow",
-      };
-
+    const Reference = () => {
       fetch(
-        "https://webstoryboy.github.io/react5001/src/assets/json/refer.json",
-        requestOptions
+        "https://webstoryboy.github.io/react5001/src/assets/json/refer.json"
       )
         .then((response) => response.json())
-        .then((data) => (refers.value = data.data.refers))
-        .catch((error) => console.log("error", error));
+        .then((data) => {
+          refers.value = data.data.htmlRefer;
+        });
     };
-    console.log(refers);
-    Referecnes();
+    Reference();
 
     return {
       refers,
-      Referecnes,
+      Reference,
     };
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.refer__cont {
-  background-color: var(--black);
-  min-height: 100vh;
+.reference__cont {
+  background-color: #f0eeeb;
+  padding-bottom: 300px;
 }
-.refer__inner {
-  h2 {
-    color: var(--white);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-}
-
-.refer__list {
-  border-top: 2px solid var(--light_bg);
-  border-bottom: 1px solid var(--light_bg);
-
-  a {
-    display: block;
-    color: var(--white);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--light_bg);
-    padding: 1.3rem 0;
-    transition: all 0.3s;
-    font-family: var(--subKor_font);
-
-    &:hover {
-      background: var(--light_bg);
-      color: var(--black);
-    }
-    span {
-      display: inline-block;
-    }
-    span:nth-child(1) {
-      width: 6%;
-      text-align: center;
-    }
-    span:nth-child(2) {
-      width: 20%;
-    }
-    span:nth-child(3) {
-      width: 64%;
-    }
-    span:nth-child(4) {
-      width: 10%;
-      text-align: center;
-    }
-  }
-}
-
-.refer__table {
-  margin-top: 200px;
-  color: var(--white);
-  font-family: var(--subKor_font);
-
-  h3 {
-    font-size: 3rem;
-  }
-  p {
-    background-color: var(--light_bg);
-    color: var(--black);
-    padding: 1.4em;
-  }
-
+.reference__inner {
   .table {
-    color: var(--white);
-    font-family: var(--subKor_font);
-    border: 1px solid var(--light_bg);
-    margin-top: 0.5em;
+    border-bottom: 2px solid #000;
+    margin-top: 1.2rem;
 
-    th,
-    td {
-      font-weight: normal;
-      padding: 1vw;
-      font-size: 20px;
-      border: 2px solid #fff;
-      cursor: pointer;
-    }
-  }
-}
-
-.refer__cont.light {
-  background-color: var(--light_bg);
-
-  .refer__inner {
-    h2 {
-      color: var(--white);
+    .tab {
+      overflow: hidden;
+      text-align: center;
+      line-height: 2;
+      li {
+        width: 80px;
+        height: 40px;
+        border: solid 1px #000;
+        float: left;
+        transition: all 0.3s;
+      }
     }
 
-    table {
-      border-color: var(—black);
-      color: var(--white);
+    h3 {
+      padding-bottom: 10px;
+    }
 
-      td {
-        border-color: var(—black);
+    li {
+      margin: 0;
+      list-style: none;
+      border-top: 1px solid #000;
+      position: relative;
+      transition: all 0.2s;
+      overflow: hidden;
+
+      &:hover {
+        color: #fff;
+        background-color: #000;
+      }
+
+      &:nth-child(1) {
+        border-top: 2px solid #000;
+      }
+
+      span {
+        display: inline-block;
+        // float: left;
+        padding: 25px 10px;
+        font-size: 14px;
+        font-family: "S-CoreDream-3Light";
+        box-sizing: border-box;
+
+        &:nth-child(1) {
+          width: 5%;
+          text-align: center;
+        }
+        &:nth-child(2) {
+          width: 10%;
+        }
+        &:nth-child(3) {
+          width: 70%;
+        }
+        &:nth-child(4) {
+          width: 15%;
+          text-align: center;
+        }
       }
     }
   }
